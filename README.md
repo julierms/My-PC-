@@ -14,6 +14,7 @@
 <br><br>
 **RAM** <br>
 <img width="171" height="20" alt="Image" src="https://github.com/user-attachments/assets/f7734361-9ab4-4112-9ae0-80fb51e2016d" /> <br>
+<img width="176" height="14" alt="pc ram speed" src="https://github.com/user-attachments/assets/143a6a93-2176-4394-99b7-8e496fa6a25f" /> <br>
 ```1 DDR5 16 GB```
 <br><br>
 **STORAGE** <br>
@@ -24,3 +25,18 @@
 <img width="187" height="36" alt="Image" src="https://github.com/user-attachments/assets/4c94c8ab-cd72-4dfc-ba72-b4e95a6dbecc" /> <br>
 <img width="244" height="45" alt="Image" src="https://github.com/user-attachments/assets/885af8dc-78e7-433c-8a6a-1193dcaba3bc" /><br>
 ```NVIDIA GeForce RTX 5060```
+
+________________________________________
+**Internal Connectors**
+![pc internal connectors 1](https://github.com/user-attachments/assets/65a84cfb-1111-4d47-915c-7327948a2fc0)
+![pc internal connectors 2](https://github.com/user-attachments/assets/6b3cb8de-4aa5-4a87-9b43-3cd4d73c1738)
+
+
+**External Connectors**
+![pc external 1](https://github.com/user-attachments/assets/e760d826-690e-44f5-82fd-43c28c9573af)
+![pc external 2](https://github.com/user-attachments/assets/0141403a-094e-40ac-bcf1-3c2a89999ce6)
+
+
+
+
+
