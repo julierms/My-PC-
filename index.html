@@ -271,33 +271,6 @@
     p{ margin: 10px 0; color: color-mix(in oklab, var(--text) 92%, var(--muted)); }
     ul,ol{ margin: 10px 0 10px 18px; color: color-mix(in oklab, var(--text) 92%, var(--muted)); }
 
-    .callouts{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin: 14px 0 2px;
-    }
-    .callout{
-      border:1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 12px 12px 12px 14px;
-      background: var(--panel);
-      box-shadow: none;
-    }
-    .callout .tag{
-      font-size: 12px;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 6px;
-      display:flex;
-      gap:8px; align-items:center;
-    }
-    .dot{ width:10px; height:10px; border-radius: 999px; background: var(--accent); opacity:.9; }
-    .callout.ok .dot{ background: var(--ok); }
-    .callout.warn .dot{ background: var(--warn); }
-    .callout.bad .dot{ background: var(--bad); }
-
     .divider{
       height:1px;
       background: var(--border);
@@ -390,6 +363,102 @@
       margin: 10px 0;
     }
 
+    /* ============ */
+    /* Image carousel */
+    /* ============ */
+    .carousel{
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--panel);
+      overflow: hidden;
+      box-shadow: none;
+      margin: 12px 0 16px;
+    }
+    .carousel-top{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .carousel-top strong{
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .carousel-viewport{
+      position: relative;
+      overflow:hidden;
+      width: 100%;
+      background: color-mix(in oklab, var(--chip) 35%, transparent);
+    }
+    .carousel-track{
+      display:flex;
+      transition: transform 260ms ease;
+      will-change: transform;
+    }
+    .carousel-slide{
+      min-width: 100%;
+      padding: 14px;
+      display:grid;
+      gap: 10px;
+      place-items:center;
+    }
+    .carousel-slide img{
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--panel);
+    }
+    .carousel-cap{
+      font-size: 13px;
+      color: var(--muted);
+      text-align:center;
+    }
+    .carousel-controls{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+    }
+    .carousel-btn{
+      border:1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 8px 10px;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      user-select:none;
+    }
+    .carousel-btn:hover{ border-color: color-mix(in oklab, var(--border) 70%, var(--accent)); }
+    .carousel-btn svg{ width:16px; height:16px; fill: var(--text); opacity:.85; }
+
+    .carousel-dots{
+      display:flex;
+      gap: 6px;
+      justify-content:center;
+      padding: 10px 12px 12px;
+      border-top: 1px solid var(--border);
+      background: color-mix(in oklab, var(--chip) 35%, transparent);
+      flex-wrap: wrap;
+    }
+    .dotbtn{
+      width: 10px; height: 10px;
+      border-radius: 999px;
+      border: 1px solid color-mix(in oklab, var(--border) 70%, var(--accent));
+      background: transparent;
+      cursor:pointer;
+      padding:0;
+    }
+    .dotbtn[aria-current="true"]{
+      background: var(--accent);
+    }
+
     /* Footer */
     footer{
       margin: 22px 0 10px;
@@ -404,17 +473,21 @@
       aside{ position: relative; top:auto; }
       .brand{ min-width: auto; }
       .search{ max-width: none; }
-      .callouts{ grid-template-columns: 1fr; }
     }
 
     /* Print */
     @media print{
-      header, aside, .controls, .copy-btn, .kbd{ display:none !important; }
+      header, aside, .controls, .copy-btn, .kbd, .carousel-top, .carousel-dots{ display:none !important; }
       .wrap{ max-width: none; padding: 0; }
       .panel{ box-shadow: none; }
       body{ background:#fff; color:#000; }
       a{ color:#000; text-decoration: underline; }
       pre{ border:1px solid #000; }
+      .carousel{ border: none; }
+      .carousel-slide{ padding: 0; }
+      .carousel-viewport{ overflow: visible; }
+      .carousel-track{ display:block; transform:none !important; }
+      .carousel-slide{ break-inside: avoid; margin-bottom: 10px; }
     }
 
     /* Highlight for search */
@@ -497,17 +570,6 @@
             <b>GUI</b> (settings/task manager/system info) and <b>CLI</b> (PowerShell). Include screenshots and
             paste the command output as evidence.
           </p>
-
-          <div class="callouts">
-            <div class="callout ok">
-              <div class="tag"><span class="dot"></span>Good for</div>
-              <div>Practicing real-world documentation: accurate specs, evidence, and repeatable commands.</div>
-            </div>
-            <div class="callout warn">
-              <div class="tag"><span class="dot"></span>Be careful</div>
-              <div>Remove/blur personal info in screenshots (device name, user folders, serial numbers) before publishing to GitHub.</div>
-            </div>
-          </div>
         </section>
 
         <div class="content" id="content">
@@ -520,6 +582,69 @@
           </p>
 
           <h3 id="pc-snapshot">My PC Snapshot</h3>
+
+          <!-- Image Carousel -->
+          <section class="carousel" id="imgCarousel" aria-label="PC build screenshots carousel">
+            <div class="carousel-top">
+              <strong>Screenshots</strong>
+              <div class="carousel-controls">
+                <button class="carousel-btn" type="button" id="carPrev" aria-label="Previous screenshot">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.4 6.4L10.8 11l4.6 4.6-1.4 1.4L8 11l6-6 1.4 1.4z"/></svg>
+                  Prev
+                </button>
+                <button class="carousel-btn" type="button" id="carNext" aria-label="Next screenshot">
+                  Next
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.6 17.6L13.2 13 8.6 8.4 10 7l6 6-6 6-1.4-1.4z"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="carousel-viewport" tabindex="0" aria-label="Use arrow keys to navigate screenshots">
+              <div class="carousel-track" id="carTrack">
+                <div class="carousel-slide">
+                  <img alt="OS screenshot" src="https://github.com/user-attachments/assets/67e3c3f6-d234-4bc1-8f09-c9fd9a632388" />
+                  <div class="carousel-cap">OS (Windows 11 Home, 64-bit)</div>
+                </div>
+
+                <div class="carousel-slide">
+                  <img alt="CPU screenshot (part 1)" src="https://github.com/user-attachments/assets/c3be344b-4313-4202-bf4b-36f3700e0da7" />
+                  <div class="carousel-cap">CPU (screenshot 1)</div>
+                </div>
+
+                <div class="carousel-slide">
+                  <img alt="CPU screenshot (part 2)" src="https://github.com/user-attachments/assets/c58adeb4-2bf2-45ba-876a-1d959d6cdf6f" />
+                  <div class="carousel-cap">CPU (screenshot 2)</div>
+                </div>
+
+                <div class="carousel-slide">
+                  <img alt="RAM size screenshot" src="https://github.com/user-attachments/assets/f7734361-9ab4-4112-9ae0-80fb51e2016d" />
+                  <div class="carousel-cap">RAM (capacity)</div>
+                </div>
+
+                <div class="carousel-slide">
+                  <img alt="RAM speed screenshot" src="https://github.com/user-attachments/assets/143a6a93-2176-4394-99b7-8e496fa6a25f" />
+                  <div class="carousel-cap">RAM (speed)</div>
+                </div>
+
+                <div class="carousel-slide">
+                  <img alt="Storage screenshot" src="https://github.com/user-attachments/assets/7efecfe1-0f21-41da-a5e9-83d66a651be7" />
+                  <div class="carousel-cap">Storage (drive info)</div>
+                </div>
+
+                <div class="carousel-slide">
+                  <img alt="GPU screenshot (part 1)" src="https://github.com/user-attachments/assets/4c94c8ab-cd72-4dfc-ba72-b4e95a6dbecc" />
+                  <div class="carousel-cap">GPU (screenshot 1)</div>
+                </div>
+
+                <div class="carousel-slide">
+                  <img alt="GPU screenshot (part 2)" src="https://github.com/user-attachments/assets/885af8dc-78e7-433c-8a6a-1193dcaba3bc" />
+                  <div class="carousel-cap">GPU (screenshot 2)</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="carousel-dots" id="carDots" aria-label="Screenshot selection dots"></div>
+          </section>
 
           <table aria-label="System snapshot table">
             <thead>
@@ -615,7 +740,7 @@ x64-based processor
       </article>
 
       <footer>
-        Sudo-Antonio-Castro • My PC Build
+        Julie-Ramos • My PC Build
       </footer>
     </main>
   </div>
@@ -803,7 +928,71 @@ x64-based processor
     tocWrap.style.display = tocCollapsed ? "none" : "block";
     tocLabel.textContent = tocCollapsed ? "Expand" : "Collapse";
   });
+
+  // ===================
+  // Carousel (Vanilla JS)
+  // ===================
+  (function initCarousel(){
+    const viewport = $("#imgCarousel .carousel-viewport");
+    const track = $("#carTrack");
+    const slides = $$("#carTrack .carousel-slide");
+    const prev = $("#carPrev");
+    const next = $("#carNext");
+    const dotsWrap = $("#carDots");
+
+    if (!track || slides.length === 0) return;
+
+    let index = 0;
+
+    // Build dots
+    slides.forEach((_, i) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "dotbtn";
+      b.setAttribute("aria-label", `Go to screenshot ${i+1}`);
+      b.addEventListener("click", () => goTo(i));
+      dotsWrap.appendChild(b);
+    });
+
+    function update(){
+      track.style.transform = `translateX(${-index * 100}%)`;
+      const dots = $$("#carDots .dotbtn");
+      dots.forEach((d, i) => d.setAttribute("aria-current", i === index ? "true" : "false"));
+      prev.disabled = (index === 0);
+      next.disabled = (index === slides.length - 1);
+    }
+
+    function goTo(i){
+      index = Math.max(0, Math.min(slides.length - 1, i));
+      update();
+    }
+
+    prev.addEventListener("click", () => goTo(index - 1));
+    next.addEventListener("click", () => goTo(index + 1));
+
+    // Keyboard support on viewport
+    viewport.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") { e.preventDefault(); goTo(index - 1); }
+      if (e.key === "ArrowRight") { e.preventDefault(); goTo(index + 1); }
+    });
+
+    // Basic touch swipe (optional)
+    let startX = null;
+    viewport.addEventListener("touchstart", (e) => {
+      startX = e.touches && e.touches[0] ? e.touches[0].clientX : null;
+    }, { passive: true });
+
+    viewport.addEventListener("touchend", (e) => {
+      if (startX == null) return;
+      const endX = e.changedTouches && e.changedTouches[0] ? e.changedTouches[0].clientX : null;
+      if (endX == null) return;
+      const dx = endX - startX;
+      if (Math.abs(dx) > 40) goTo(index + (dx < 0 ? 1 : -1));
+      startX = null;
+    });
+
+    update();
+  })();
 </script>
 </body>
 </html>
-
